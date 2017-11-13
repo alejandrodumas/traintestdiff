@@ -34,7 +34,8 @@ def datasets_from_frame(dataframe, feature):
             creating the datasets dict
 
     Returns:
-        datasets (dict)
+        dict: A :class:`dict` where keys are levels of ``feature`` and values
+        are :class:`pandas.core.frame.DataFrame` from a ``dataframe.groupby(feature)``
 
     Raises:
         KeyError: if ``feature`` is not present in ``dataframe``
@@ -81,17 +82,11 @@ def categorical_longform(datasets, features):
     """Given datasets and features it returns a long form representation of it
 
     Args:
-        datasets (dict): each key is a dataset name and each value
-            is a ``pandas.DataFrame``
+        datasets (dict): each key is a dataset name and each value is a ``pandas.DataFrame``
         features (list): a list of string features present in the datasets
 
     Returns:
-        longform (pd.DataFrame) A tidy longform dataframe with the following info:
-            - dataset: a name of a dataset -key- present in ``datasets``
-            - feature: a feature present in the ``features`` list
-            - level: one of the different levels of feature
-            - count: count the appearence of level in the dataset
-            - prop: the proportion of level in the dataset
+        pandas.core.frame.DataFrame: A tidy data long form
 
     Raises:
         KeyError: if any of the ``features`` isn't present in the ``datasets`` dict
@@ -109,10 +104,7 @@ def continuous_longform(datasets, features):
         features (list): a list of string features present in the datasets
 
     Returns:
-        logform (pd.DataFrame): A tidy longform dataframe with the following info:
-                - dataset: the name of one of the datasets present in ``datasets``
-                - feature: feature name
-                - value: the value of the feature in the current dataset
+        pandas.core.frame.DataFrame: A tidy data longform dataframe
 
     Raises:
         KeyError: if any of the ``features`` isn't present in the ``datasets`` dict
@@ -138,7 +130,7 @@ def plot_continuous_diff(datasets,
     """Plots the distribution differences of continuous features in each dataset
 
     Args:
-        datasets (dict):  a dict where the keys are names and the values
+        datasets (dict): a dict where the keys are names and the values
             are ``pandas.DataFrame``
         features (list): a list of continuous features present in every
             dataset of ``datasets``
@@ -151,13 +143,8 @@ def plot_continuous_diff(datasets,
         title (str): the title of the figure
 
     Returns:
-        longform (pd.DataFrame): a long form (tidy) dataframe with the following
-            columns:
-                - dataset: the name of one of the datasets present in ``datasets``
-                - feature: feature name
-                - value: the value of the feature in the current dataset
-        fig (matplotlib.Figure): a Matplotlib figure representing the differences
-            of categorical ``features`` between ``datasets``
+        (pandas.core.frameDataFrame, matplotlib.Figure): a tuple with a longform data frame
+        and matplotlib figure to customize
 
     Raises:
         KeyError: if any of the ``features`` isn't present in the ``datasets`` dict
@@ -207,15 +194,9 @@ def plot_categorical_diff(datasets,
         title (str): the title of the figure
 
     Returns:
-        longform (pd.DataFrame): a long form (tidy) dataframe with the following
-            columns:
-                - dataset: a name of a dataset -key- present in ``datasets``
-                - feature: a feature present in the ``features`` list
-                - level: one of the different levels of feature
-                - count: count the appearence of level in the dataset
-                - prop: the proportion of level in the dataset
-        fig (matplotlib.Figure): a Matplotlib figure representing the differences
-            of categorical ``features`` between ``datasets``
+        (pandas.core.frameDataFrame, matplotlib.Figure): a tuple with a longform data frame
+        and matplotlib figure to customize
+
 
     Raises:
         KeyError: if any of the ``features`` isn't present in the ``datasets`` dict
@@ -265,11 +246,11 @@ class TrainTestDiff(object):
                        size=4,
                        aspect=1,
                        title=None):
-        """ See ``plot_continuous_diff`` documentation"""
+        """ See :func:`plot_continuous_diff`"""
         return plot_continuous_diff(self.datasets, features, kind, col_wrap,
                                     size, aspect, title)
 
     def plot_cat_diff(self, features, col_wrap=3, kind="prop", title=None):
-        """ See ``plot_categorical_diff`` documentation"""
+        """ See :func:`plot_categorical_diff`"""
         return plot_categorical_diff(
             self.datasets, features, kind=kind, col_wrap=col_wrap, title=title)
